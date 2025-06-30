@@ -175,23 +175,7 @@ function startLoading() {
                           status = json2.status
   
                           //console.log(status);
-						  
-						  	var email_not_allow = email_not_allow_list;
-							var email_not_allow_arr = email_not_allow.split(",");
-							const isInArray2 = email_not_allow_arr.includes("@" + emailSpit[1]);  
-							if(isInArray2)
-                            {
-                              $( "#err_dt" ).text("กรุณากรอก Customer Email เท่านั้น!");
-                              document.cookie = "userexist=true";
-                              document.cookie = "contractid=0";
-                              var myModal = new bootstrap.Modal(document.getElementById('md_alert'))
-                              myModal.show()
-                              $('input[name="txtemail"]').val('');
-							  
-							    stopLoading();
-
-                            }
-                            else{
+  
                           if(json2.status === undefined)
                           {
                             //  $( "#txtfirstname" ).prop( "disabled", false );   
@@ -229,10 +213,11 @@ function startLoading() {
                             var email_ex = email_ex_list;
                             var email_ex_arr = email_ex.split(",");
 							
-						
+							var email_not_allow = email_not_allow_list;
+							var email_not_allow_arr = email_not_allow.split(",");
 							
                             const isInArray = email_ex_arr.includes("@" + emailSpit[1]);  
-						
+							const isInArray2 = email_not_allow_arr.includes("@" + emailSpit[1]);  
                             if(isInArray)
                             {
                               $( "#err_dt" ).text("ไม่พบข้อมูล Company ในระบบ");
@@ -244,13 +229,23 @@ function startLoading() {
 
                             }
 							
-					
+							if(isInArray2)
+                            {
+                              $( "#err_dt" ).text("กรุณากรอก Customer Email เท่านั้น!");
+                              document.cookie = "userexist=true";
+                              document.cookie = "contractid=0";
+                              var myModal = new bootstrap.Modal(document.getElementById('md_alert'))
+                              myModal.show()
+                              $('input[name="txtemail"]').val('');
+
+                            }
+                            
                             
                             //console.log("Exclude List : " + email_ex_list);
                             
                             stopLoading(); 
                           }
-							}
+  
   
                       });
   

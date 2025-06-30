@@ -175,23 +175,7 @@ function startLoading() {
                           status = json2.status
   
                           //console.log(status);
-						  
-						  	var email_not_allow = email_not_allow_list;
-							var email_not_allow_arr = email_not_allow.split(",");
-							const isInArray2 = email_not_allow_arr.includes("@" + emailSpit[1]);  
-							if(isInArray2)
-                            {
-                              $( "#err_dt" ).text("กรุณากรอก Customer Email เท่านั้น!");
-                              document.cookie = "userexist=true";
-                              document.cookie = "contractid=0";
-                              var myModal = new bootstrap.Modal(document.getElementById('md_alert'))
-                              myModal.show()
-                              $('input[name="txtemail"]').val('');
-							  
-							    stopLoading();
-
-                            }
-                            else{
+  
                           if(json2.status === undefined)
                           {
                             //  $( "#txtfirstname" ).prop( "disabled", false );   
@@ -209,7 +193,6 @@ function startLoading() {
                             document.cookie = "contractid=" + json2.vid;
                             userexist = true;
                             stopLoading();
-							console.log("Complete");
                           }
                           else
                           {
@@ -228,11 +211,7 @@ function startLoading() {
                             
                             var email_ex = email_ex_list;
                             var email_ex_arr = email_ex.split(",");
-							
-						
-							
                             const isInArray = email_ex_arr.includes("@" + emailSpit[1]);  
-						
                             if(isInArray)
                             {
                               $( "#err_dt" ).text("ไม่พบข้อมูล Company ในระบบ");
@@ -243,14 +222,13 @@ function startLoading() {
                               $('input[name="txtemail"]').val('');
 
                             }
-							
-					
+                            
                             
                             //console.log("Exclude List : " + email_ex_list);
                             
                             stopLoading(); 
                           }
-							}
+  
   
                       });
   
@@ -277,8 +255,6 @@ function startLoading() {
                             $('input[name="txtemail"]').val('');
                               stopLoading();
                           }
-						  
-						  
   
               }
               else
@@ -423,10 +399,10 @@ function startLoading() {
 {
 
   var response = grecaptcha.getResponse();
-  var phone_type = /^[0-9]{9,10}$/;
+  var phone_type = /^[0-9]{10}$/;
   var phone_number = $("#txtphone").val();
   //console.log(phone_number);
- 
+  
 if($("#txtemail").val() == "")
 {
    $('form').addClass('was-validated');
@@ -483,7 +459,6 @@ else if(!phone_number.match(phone_type))
 {
   $('form').addClass('was-validated');
   //console.log("Invalid Phone Number Type");
-  //alert("Invalid Phone Number Type");
   $("#invalid_phone").html("Invalid phone number type");
   $("#txtphone").focus();
 }

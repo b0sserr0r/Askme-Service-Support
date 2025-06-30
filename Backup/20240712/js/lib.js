@@ -19,7 +19,7 @@ function products_list(branch) {
     "Network and Security Solutions|Infra_BKK|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/pFz4YqcUKYcttsnMbzTpCV6Av/",
     "Microsoft Solutions|Infra_BKK|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/pFz4YqcUKYcttsnMbzTpCV6Av/", 
     "Cloud and AI Solutions|Infra_BKK|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/pFz4YqcUKYcttsnMbzTpCV6Av/", 
-    "Automation Solutions|Enterprise_BKK|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/iz2HtOFkO1j4a80xuMZFXtoGl/", 
+    "Automataion Solutions|Enterprise_BKK|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/iz2HtOFkO1j4a80xuMZFXtoGl/", 
     "Helpdesk and Event Management|Enterprise_BKK|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/iz2HtOFkO1j4a80xuMZFXtoGl/", 
     "APM and Observability Solutions|APM_BKK|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/mRvSty3PBpDnrhI874X3FbrB2/",
     "Etc.|Other_BKK|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/y1VD9Eo9pNO84HhOH7TIULcdx/"];
@@ -28,11 +28,11 @@ function products_list(branch) {
   if(branch == "Chiang Mai")
   {
     return  ["Software Development|Development_CM|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/ycYQQsN53qepkrvaNelgL1cdL/", 
-    "Microsoft Solutions|Infra_CM|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/LV1iIFTPE68EZxvYRpWTuxVpw/", 
+    "Microsoft Solutions|Development_CM|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/ycYQQsN53qepkrvaNelgL1cdL/", 
     "Server Storage and Infra Solutions|Infra_CM|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/LV1iIFTPE68EZxvYRpWTuxVpw/", 
     "Backup Solutions|Infra_CM|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/LV1iIFTPE68EZxvYRpWTuxVpw/", 
     "Network and Security Solutions|Infra_CM|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/LV1iIFTPE68EZxvYRpWTuxVpw/", 
-    "Cloud and AI Solutions|Infra_CM|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/LV1iIFTPE68EZxvYRpWTuxVpw/", //Alert 2 team Infra_CM,Development
+    "Cloud and AI Solutions|Infra_CM|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/LV1iIFTPE68EZxvYRpWTuxVpw/", 
     "Etc.|Other_CM|https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/f2r206XPA1S8GFqFfZuFJ634n/"];
   }
 
@@ -175,23 +175,7 @@ function startLoading() {
                           status = json2.status
   
                           //console.log(status);
-						  
-						  	var email_not_allow = email_not_allow_list;
-							var email_not_allow_arr = email_not_allow.split(",");
-							const isInArray2 = email_not_allow_arr.includes("@" + emailSpit[1]);  
-							if(isInArray2)
-                            {
-                              $( "#err_dt" ).text("กรุณากรอก Customer Email เท่านั้น!");
-                              document.cookie = "userexist=true";
-                              document.cookie = "contractid=0";
-                              var myModal = new bootstrap.Modal(document.getElementById('md_alert'))
-                              myModal.show()
-                              $('input[name="txtemail"]').val('');
-							  
-							    stopLoading();
-
-                            }
-                            else{
+  
                           if(json2.status === undefined)
                           {
                             //  $( "#txtfirstname" ).prop( "disabled", false );   
@@ -209,7 +193,6 @@ function startLoading() {
                             document.cookie = "contractid=" + json2.vid;
                             userexist = true;
                             stopLoading();
-							console.log("Complete");
                           }
                           else
                           {
@@ -228,11 +211,7 @@ function startLoading() {
                             
                             var email_ex = email_ex_list;
                             var email_ex_arr = email_ex.split(",");
-							
-						
-							
                             const isInArray = email_ex_arr.includes("@" + emailSpit[1]);  
-						
                             if(isInArray)
                             {
                               $( "#err_dt" ).text("ไม่พบข้อมูล Company ในระบบ");
@@ -243,14 +222,13 @@ function startLoading() {
                               $('input[name="txtemail"]').val('');
 
                             }
-							
-					
+                            
                             
                             //console.log("Exclude List : " + email_ex_list);
                             
                             stopLoading(); 
                           }
-							}
+  
   
                       });
   
@@ -277,8 +255,6 @@ function startLoading() {
                             $('input[name="txtemail"]').val('');
                               stopLoading();
                           }
-						  
-						  
   
               }
               else
@@ -423,10 +399,10 @@ function startLoading() {
 {
 
   var response = grecaptcha.getResponse();
-  var phone_type = /^[0-9]{9,10}$/;
+  var phone_type = /^[0-9]{10}$/;
   var phone_number = $("#txtphone").val();
   //console.log(phone_number);
- 
+  
 if($("#txtemail").val() == "")
 {
    $('form').addClass('was-validated');
@@ -483,7 +459,6 @@ else if(!phone_number.match(phone_type))
 {
   $('form').addClass('was-validated');
   //console.log("Invalid Phone Number Type");
-  //alert("Invalid Phone Number Type");
   $("#invalid_phone").html("Invalid phone number type");
   $("#txtphone").focus();
 }

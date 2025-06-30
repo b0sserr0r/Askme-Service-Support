@@ -55,7 +55,7 @@
       
     $uploads_dir = './uploads';
 	  $email = $_POST['txtemail'];
-    $product = $_POST['txtproduct'];
+    //$product = $_POST['txtproduct'];
 	  $subject = $_POST['txtsub'];
     $description = $_POST['txtdes'];
     $userlineid =  $_POST['txtlineid'];
@@ -143,8 +143,7 @@
               "subject" =>  $_POST["txtsub"],
               "content" =>  $description,
               "sales_name"=>  getenv('OWNER_DEFAULT_ID'),
-              "hs_ticket_priority" => $hs_priority,
-			  "product" => $Product
+              "hs_ticket_priority" => $hs_priority
         )
     );
 
@@ -160,8 +159,7 @@
             "subject" =>  $_POST["txtsub"],
             "content" =>  $description,
             "sales_name"=>  $OwnerID,
-            "hs_ticket_priority" => $hs_priority,
-			"product" => $Product
+            "hs_ticket_priority" => $hs_priority
       ),
       "associations" => [ array(
                 "to" => array(
@@ -229,7 +227,6 @@
         
         //Dev
         //$make_call = json_encode(CreateAlertGN('POST', "https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/SfSeyieHlQZpn5g7zEC5ksO0z/" , json_encode($data_array)), true);
-		
         //PROD
         $make_call = json_encode(CreateAlertGN('POST', $End_Point , json_encode($data_array)), true);
         $response = json_decode($make_call, true);
@@ -312,9 +309,9 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
+  <meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="-1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" type="text/javascript"></script>
@@ -403,42 +400,42 @@ margin: 0;}
                      <div class="text-center">
   <img style="text-align:center" src="./images/Logo_Askme.png" class="img-fluid" style="max-width:20%;">
                           
-  <h3><p >Support and Ticket</p></h3>
+  <h3><p >Support and Ticket (Beta)</p></h3>
   </div>
 
   
   <form autocomplete="on" autofill="on" spellcheck="false"  action="index.php"  method="POST" class="needs-validated"  enctype="multipart/form-data" id="ticketform" name="ticketform" data-ajax="false">
     <div class="mb-3 mt-3">
-      <label for="txtemail" class="form-label">Customer Email *</label>
-      <input type="email" class="form-control" id="txtemail" placeholder="Enter Customer Email" name="txtemail" required>
+      <label for="txtemail" class="form-label">Email</label>
+      <input type="email" class="form-control" id="txtemail" placeholder="Enter Email" name="txtemail" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out email field.</div>
     </div>
 
  
     <div class="mb-3 mt-3">
-      <label for="txtfirstname" class="form-label">First Name *</label>
+      <label for="txtfirstname" class="form-label">First Name</label>
       <input type="text" class="form-control" id="txtfirstname" placeholder="Enter Firstname" name="txtfirstname" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out firstname field.</div>
     </div>
                         
     <div class="mb-3 mt-3">
-      <label for="txtlastname" class="form-label">Last Name *</label>
+      <label for="txtlastname" class="form-label">Last Name</label>
       <input type="text" class="form-control" id="txtlastname" placeholder="Enter Lastname" name="txtlastname" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out lastname field.</div>
     </div>
 
     <div class="mb-3 mt-3">
-      <label for="txtphone" class="form-label">Phone Number *</label>
-      <input type="text" pattern="^[0-9]{9,10}$" class="form-control" id="txtphone" placeholder="Enter Phone Number" name="txtphone" required minlength="9" maxlength="10">
+      <label for="txtphone" class="form-label">Phone Number</label>
+      <input type="text" pattern="^[0-9]{10}$" class="form-control" id="txtphone" placeholder="Enter Phone Number" name="txtphone" required minlength="10" maxlength="10">
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback" id="invalid_phone">Please fill out phonenumber field.</div>
     </div>
 
     <div class="mb-3 mt-3">
-      <label for="txtbranch" class="form-label">Branch *</label>
+      <label for="txtbranch" class="form-label">Branch</label>
       <select id="txtbranch" class="form-control" name="txtbranch" required>
 
   
@@ -454,7 +451,7 @@ margin: 0;}
 
    
     <div class="mb-3 mt-3">
-      <label for="txtproduct" class="form-label">Product *</label>
+      <label for="txtproduct" class="form-label">Product</label>
       <select id="txtproduct" class="form-control" name="txtproduct" required>
 
   
@@ -468,14 +465,14 @@ margin: 0;}
 
 
     <div class="mb-3">
-      <label for="txtsub" class="form-label">Subject *</label>
+      <label for="txtsub" class="form-label">Subject</label>
       <input  type="text" class="form-control" id="txtsub" placeholder="Enter Subject" name="txtsub" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out subject field.</div>
     </div>
 
     <div class="mb-3">
-      <label for="txtdes" class="form-label">Description *</label>
+      <label for="txtdes" class="form-label">Description</label>
       <!-- <input type="text" class="form-control" id="txtdes" placeholder="Enter Description" name="txtdes" required> -->
       <textarea class="form-control" id="txtdes" name="txtdes" rows="3" required></textarea>
       <div class="valid-feedback">Valid.</div>
@@ -483,7 +480,7 @@ margin: 0;}
     </div>
 
     <div class="mb-3 mt-3">
-      <label for="txtseverity" class="form-label">Serverity *</label>
+      <label for="txtseverity" class="form-label">Serverity</label>
       <select id="txtseverity" class="form-control" name="txtseverity" required>
 
   
@@ -703,9 +700,8 @@ margin: 0;}
 </div>
 <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
 <script type="text/javascript">var email_ex_list = "<?= getenv('EMAIL_EXCLUDE') ?>";</script>
-<script type="text/javascript">var email_not_allow_list = "<?= getenv('EMAIL_NOT_ALLOW') ?>";</script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<script type="text/javascript" src=./js/lib.js></script>
+<script type="text/javascript" src=./js/lib.js?cache=12345678></script>
 
 <script>
 

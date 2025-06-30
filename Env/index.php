@@ -409,7 +409,7 @@ margin: 0;}
   
   <form autocomplete="on" autofill="on" spellcheck="false"  action="index.php"  method="POST" class="needs-validated"  enctype="multipart/form-data" id="ticketform" name="ticketform" data-ajax="false">
     <div class="mb-3 mt-3">
-      <label for="txtemail" class="form-label">Customer Email *</label>
+      <label for="txtemail" class="form-label">Customer Email</label>
       <input type="email" class="form-control" id="txtemail" placeholder="Enter Customer Email" name="txtemail" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out email field.</div>
@@ -417,28 +417,28 @@ margin: 0;}
 
  
     <div class="mb-3 mt-3">
-      <label for="txtfirstname" class="form-label">First Name *</label>
+      <label for="txtfirstname" class="form-label">First Name</label>
       <input type="text" class="form-control" id="txtfirstname" placeholder="Enter Firstname" name="txtfirstname" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out firstname field.</div>
     </div>
                         
     <div class="mb-3 mt-3">
-      <label for="txtlastname" class="form-label">Last Name *</label>
+      <label for="txtlastname" class="form-label">Last Name</label>
       <input type="text" class="form-control" id="txtlastname" placeholder="Enter Lastname" name="txtlastname" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out lastname field.</div>
     </div>
 
     <div class="mb-3 mt-3">
-      <label for="txtphone" class="form-label">Phone Number *</label>
+      <label for="txtphone" class="form-label">Phone Number</label>
       <input type="text" pattern="^[0-9]{9,10}$" class="form-control" id="txtphone" placeholder="Enter Phone Number" name="txtphone" required minlength="9" maxlength="10">
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback" id="invalid_phone">Please fill out phonenumber field.</div>
     </div>
 
     <div class="mb-3 mt-3">
-      <label for="txtbranch" class="form-label">Branch *</label>
+      <label for="txtbranch" class="form-label">Branch</label>
       <select id="txtbranch" class="form-control" name="txtbranch" required>
 
   
@@ -454,7 +454,7 @@ margin: 0;}
 
    
     <div class="mb-3 mt-3">
-      <label for="txtproduct" class="form-label">Product *</label>
+      <label for="txtproduct" class="form-label">Product</label>
       <select id="txtproduct" class="form-control" name="txtproduct" required>
 
   
@@ -468,14 +468,14 @@ margin: 0;}
 
 
     <div class="mb-3">
-      <label for="txtsub" class="form-label">Subject *</label>
+      <label for="txtsub" class="form-label">Subject</label>
       <input  type="text" class="form-control" id="txtsub" placeholder="Enter Subject" name="txtsub" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out subject field.</div>
     </div>
 
     <div class="mb-3">
-      <label for="txtdes" class="form-label">Description *</label>
+      <label for="txtdes" class="form-label">Description</label>
       <!-- <input type="text" class="form-control" id="txtdes" placeholder="Enter Description" name="txtdes" required> -->
       <textarea class="form-control" id="txtdes" name="txtdes" rows="3" required></textarea>
       <div class="valid-feedback">Valid.</div>
@@ -483,7 +483,7 @@ margin: 0;}
     </div>
 
     <div class="mb-3 mt-3">
-      <label for="txtseverity" class="form-label">Serverity *</label>
+      <label for="txtseverity" class="form-label">Serverity</label>
       <select id="txtseverity" class="form-control" name="txtseverity" required>
 
   

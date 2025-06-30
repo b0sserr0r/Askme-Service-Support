@@ -1,4 +1,3 @@
-
 <?php
     error_reporting(0);
     $env = file_get_contents(__DIR__."/.env");
@@ -20,32 +19,6 @@
      {
       
       $CompanyID =  $_COOKIE['ComID'];
-      $OwnerID =  $_COOKIE['OwnerID'];
-
-      if($OwnerID == "")
-      {
-        $OwnerID = getenv('OWNER_DEFAULT_ID');
-        //echo "<script>console.log('Company ID is null' );</script>";
-      }
-
-      $hs_priority;
-
-       if($_POST['txtseverity'] == "Minor")
-      {
-        $hs_priority = getenv('hs_priority_low');
-      }
-      if($_POST['txtseverity'] == "Major")
-      {
-        $hs_priority = getenv('hs_priority_medium');
-         
-      }
-      if($_POST['txtseverity'] == "Critical")
-      {
-        $hs_priority = getenv('hs_priority_high');
-         
-      }
-      
-
       $ContractID =  $_COOKIE['contractid'];
       $Product_Split = explode('|', $_POST['txtproduct']);
       $Product = $Product_Split[0];
@@ -55,7 +28,7 @@
       
     $uploads_dir = './uploads';
 	  $email = $_POST['txtemail'];
-    $product = $_POST['txtproduct'];
+    //$product = $_POST['txtproduct'];
 	  $subject = $_POST['txtsub'];
     $description = $_POST['txtdes'];
     $userlineid =  $_POST['txtlineid'];
@@ -65,7 +38,7 @@
 
     $countfile_attach = count(array_filter($_FILES["fileUpload"]['name']));
 
-     echo "<script>console.log('" .  $subject . "' );</script>";
+     //echo "<script>console.log('" . isset($_FILES["fileUpload"]) . "' );</script>";
     if($countfile_attach > 0)
     {
      
@@ -140,11 +113,8 @@
         "properties"  => array(
               "hs_pipeline" => getenv('HS_PIPELINE'), 
               "hs_pipeline_stage" => getenv('HS_PIPELINE_STAGE_NEW'),
-              "subject" =>  $_POST["txtsub"],
-              "content" =>  $description,
-              "sales_name"=>  getenv('OWNER_DEFAULT_ID'),
-              "hs_ticket_priority" => $hs_priority,
-			  "product" => $Product
+              "subject" =>  $Product . " - " .$_POST["txtsub"],
+              "content" =>  $description
         )
     );
 
@@ -157,11 +127,8 @@
       "properties"  => array(
             "hs_pipeline" => getenv('HS_PIPELINE'), 
             "hs_pipeline_stage" => getenv('HS_PIPELINE_STAGE_NEW'),
-            "subject" =>  $_POST["txtsub"],
-            "content" =>  $description,
-            "sales_name"=>  $OwnerID,
-            "hs_ticket_priority" => $hs_priority,
-			"product" => $Product
+            "subject" =>  $Product . " - " .$_POST["txtsub"],
+            "content" =>  $description
       ),
       "associations" => [ array(
                 "to" => array(
@@ -193,12 +160,12 @@
         
      
         
-        $resultCreateTic=json_encode(CreateTicketHubspot('POST', 'https://api.hubapi.com/crm/v3/objects/tickets', json_encode($data_array)), true);
-        $response=json_decode($resultCreateTic, true);
-        $array = json_decode($response, true);
-        $ticket_id = $array['id'];
+        // $resultCreateTic=json_encode(CreateTicketHubspot('POST', 'https://api.hubapi.com/crm/v3/objects/tickets', json_encode($data_array)), true);
+        // $response=json_decode($resultCreateTic, true);
+        // $array = json_decode($response, true);
+        // $ticket_id = $array['id'];
 
-      echo "<script>console.log('" . json_encode($resultCreateTic) . "' );</script>";
+      //echo "<script>console.log('" . json_encode($resultCreateTic) . "' );</script>";
       
 
 
@@ -211,13 +178,12 @@
                         "lineid" => $_POST['txtlineid'],
                         "hs_file_upload" => $fileattach,
                         "hs_ticket_id" => $ticket_id,
-                        "subject" => $_POST["txtsub"],
+                        "subject" => $Product . " - " .$_POST["txtsub"],
                         "content" => $_POST["txtdes"],
                         "product" => $Product,
                         "firstname" => $_POST["txtfirstname"],
                         "lastname" => $_POST["txtlastname"],
                         "phonenumber" => $_POST["txtphone"],
-                        "serverity" => $_POST['txtseverity']
               )
           )
     
@@ -226,13 +192,10 @@
 
 
         //$GF_Endpoint_Team = "";
-        
-        //Dev
-        //$make_call = json_encode(CreateAlertGN('POST', "https://oncall-prod-us-central-0.grafana.net/oncall/integrations/v1/webhook/SfSeyieHlQZpn5g7zEC5ksO0z/" , json_encode($data_array)), true);
-		
-        //PROD
-        $make_call = json_encode(CreateAlertGN('POST', $End_Point , json_encode($data_array)), true);
-        $response = json_decode($make_call, true);
+
+      
+        // $make_call = json_encode(CreateAlertGN('POST', $End_Point , json_encode($data_array)), true);
+        // $response = json_decode($make_call, true);
        
 
        
@@ -291,8 +254,13 @@
 
         
         }
-
+        ?>
+        <script type="text/javascript">
+        window.location = "thankpage.php";
+        </script>   
+        <?php
          $result = "Success";
+         
 
         
 
@@ -312,13 +280,12 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
+  <meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="-1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" type="text/javascript"></script>
-
 
   <style>
 .table thead tr th, .table tbody tr td {
@@ -340,25 +307,7 @@ margin: 0;}
 <body>
 <!-- Submit Success -->
 
-<div class="container" <?php
-                            if(!isset($result)){
-                            echo "hidden";
-                            }
-                            ?>>
-<div class="row align-items-center " 
-        style="min-height: 50vh">
-        <div class="d-flex justify-content-center">
-        <div class="alert alert-info" role="alert">
-        Thanks for submitting the ticket. <br>
 
-        
-       <a href="javascript:close_liff_app()"><p style="text-align:center"> Click to exit</p></a> 
-       <!-- <button type="button"  onClick= "javascript:close_liff_app()" class="btn btn-secondary">Close App</button> -->
-     
-</div>
-</div>
-</div>
-</div>
 
 
         <span id="loading" <?php
@@ -403,42 +352,42 @@ margin: 0;}
                      <div class="text-center">
   <img style="text-align:center" src="./images/Logo_Askme.png" class="img-fluid" style="max-width:20%;">
                           
-  <h3><p >Support and Ticket</p></h3>
+  <h3><p >Support and Ticket (Beta)</p></h3>
   </div>
 
   
-  <form autocomplete="on" autofill="on" spellcheck="false"  action="index.php"  method="POST" class="needs-validated"  enctype="multipart/form-data" id="ticketform" name="ticketform" data-ajax="false">
+  <form spellcheck="false"  action="lineliff_test.php"  method="POST" class="was-validated" enctype="multipart/form-data" id="ticketform" name="ticketform">
     <div class="mb-3 mt-3">
-      <label for="txtemail" class="form-label">Customer Email *</label>
-      <input type="email" class="form-control" id="txtemail" placeholder="Enter Customer Email" name="txtemail" required>
+      <label for="txtemail" class="form-label">Email</label>
+      <input type="email" class="form-control" id="txtemail" placeholder="Enter Email" name="txtemail" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out email field.</div>
     </div>
 
  
     <div class="mb-3 mt-3">
-      <label for="txtfirstname" class="form-label">First Name *</label>
+      <label for="txtfirstname" class="form-label">First Name</label>
       <input type="text" class="form-control" id="txtfirstname" placeholder="Enter Firstname" name="txtfirstname" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out firstname field.</div>
     </div>
                         
     <div class="mb-3 mt-3">
-      <label for="txtlastname" class="form-label">Last Name *</label>
+      <label for="txtlastname" class="form-label">Last Name</label>
       <input type="text" class="form-control" id="txtlastname" placeholder="Enter Lastname" name="txtlastname" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out lastname field.</div>
     </div>
 
     <div class="mb-3 mt-3">
-      <label for="txtphone" class="form-label">Phone Number *</label>
-      <input type="text" pattern="^[0-9]{9,10}$" class="form-control" id="txtphone" placeholder="Enter Phone Number" name="txtphone" required minlength="9" maxlength="10">
+      <label for="txtphone" class="form-label">Phone Number</label>
+      <input type="text" pattern="\d*" class="form-control" id="txtphone" placeholder="Enter Phone Number" name="txtphone" required maxlength="10">
       <div class="valid-feedback">Valid.</div>
-      <div class="invalid-feedback" id="invalid_phone">Please fill out phonenumber field.</div>
+      <div class="invalid-feedback">Please fill out phonenumber field.</div>
     </div>
 
     <div class="mb-3 mt-3">
-      <label for="txtbranch" class="form-label">Branch *</label>
+      <label for="txtbranch" class="form-label">Branch</label>
       <select id="txtbranch" class="form-control" name="txtbranch" required>
 
   
@@ -454,7 +403,7 @@ margin: 0;}
 
    
     <div class="mb-3 mt-3">
-      <label for="txtproduct" class="form-label">Product *</label>
+      <label for="txtproduct" class="form-label">Product</label>
       <select id="txtproduct" class="form-control" name="txtproduct" required>
 
   
@@ -468,33 +417,18 @@ margin: 0;}
 
 
     <div class="mb-3">
-      <label for="txtsub" class="form-label">Subject *</label>
+      <label for="txtsub" class="form-label">Subject</label>
       <input  type="text" class="form-control" id="txtsub" placeholder="Enter Subject" name="txtsub" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out subject field.</div>
     </div>
 
     <div class="mb-3">
-      <label for="txtdes" class="form-label">Description *</label>
+      <label for="txtdes" class="form-label">Description</label>
       <!-- <input type="text" class="form-control" id="txtdes" placeholder="Enter Description" name="txtdes" required> -->
       <textarea class="form-control" id="txtdes" name="txtdes" rows="3" required></textarea>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out deescription field.</div>
-    </div>
-
-    <div class="mb-3 mt-3">
-      <label for="txtseverity" class="form-label">Serverity *</label>
-      <select id="txtseverity" class="form-control" name="txtseverity" required>
-
-  
-                                  <option selected disabled value="">Select Serverity</option>
-                                  <option value="Minor">Minor</option>
-                                  <option value="Major">Major</option>
-                                  <option value="Critical">Critical</option>
-                                   
-                               </select>
-      <div class="valid-feedback">Valid.</div>
-      <div class="invalid-feedback">Please select product.</div>
     </div>
 
     
@@ -513,18 +447,10 @@ margin: 0;}
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field.</div>
     </div>
-    <!-- ReCaptcha -->
-      <div>
-                
-      <div class="g-recaptcha" data-sitekey="6LdJ5uUpAAAAANdkPLv2AWtkWVsX9kbUawnZJPVx">
-                            
-        </div>
 
 
-        </div>
-
-  <!-- <button type="submit" name="submit" class="btn btn-primary">Submit</button> -->
-  <button type="button" id="save"  class="btn btn-primary" onclick="show_dialog();">Submit</button>
+  <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+  <!-- <button type="button" id="save"  class="btn btn-primary" onclick="show_dialog();">Submit</button> -->
     
   <!-- onclick="show_dialog();" -->
 <!-- 
@@ -532,7 +458,7 @@ margin: 0;}
 
 
 <!-- Show Detial Before Confirm -->
-<div class="modal fade" id="Modal_Ticket_Detail" tabindex="-1" role="dialog" aria-labelledby="Modal_Ticket_DetailTitle" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+<div class="modal fade" id="Modal_Ticket_Detail" tabindex="-1" role="dialog" aria-labelledby="Modal_Ticket_DetailTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -634,17 +560,6 @@ margin: 0;}
  </td>
 </tr>
 
-<tr class="row">
-
-<td class="col-4">
- Serverity
-</td>
- 
-<td id="dt_severity" class="col-8">
-    
- </td>
-</tr>
-
 
 <tr class="row">
         <td class="col-4">
@@ -663,12 +578,12 @@ margin: 0;}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" name="submit" class="btn btn-primary" id="submit" >Confirm</button>
+        <button type="submit" name="submit" class="btn btn-primary" >Confirm</button>
       </div>
     </div>
   </div>
 </div>
-</form>
+
 <!-- Loading Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="spinnerModal" data-bs-keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered text-center" role="document">
@@ -682,7 +597,7 @@ margin: 0;}
 </div>
    </div>
 
-
+   </form>
   <!-- Alert Modal -->
    <div class="modal fade" tabindex="-1" role="dialog" id="md_alert" data-bs-keyboard="false" data-bs-backdrop="static">
   <div class="modal-dialog">
@@ -703,21 +618,13 @@ margin: 0;}
 </div>
 <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
 <script type="text/javascript">var email_ex_list = "<?= getenv('EMAIL_EXCLUDE') ?>";</script>
-<script type="text/javascript">var email_not_allow_list = "<?= getenv('EMAIL_NOT_ALLOW') ?>";</script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script type="text/javascript" src=./js/lib.js></script>
 
 <script>
 
     const main = async () => {
-        await liff.init({ liffId: '<?php echo getenv('LIFF_ID'); ?>', withLoginOnExternalBrowser: true})
-        const friend = await liff.getFriendship();
-        const isFriend = friend.friendFlag;
-        //console.log(isFriend);
-
-        if(isFriend)
-        {
-          if(!liff.isLoggedIn())
+        await liff.init({ liffId: "2005151887-Y63q1mG4", withLoginOnExternalBrowser: true})
+        if(!liff.isLoggedIn())
         {
   
             liff.login()
@@ -727,41 +634,15 @@ margin: 0;}
         }
         else
         {
-          
-
              const profile = await liff.getProfile()
              document.getElementById("loading").style.display = "none";
              document.getElementById("divmain").style.display = "block";
              console.log("Loggined")
          
             $('input[name="txtlineid"]').val(profile.userId)
-
+     
+         
         }
-
-        }
-        else
-        {
-            //alert(liff.getOS());
-            alert("Please add friend AskMe official account!");
-
-            if(liff.getOS() == "ios")
-            {
-              location.replace("https://lin.ee/FNpF6TL");
-            }
-            else if(liff.getOS() == "andriod")
-            {
-              document.location= "https://lin.ee/FNpF6TL";
-            }
-            else if(liff.getOS() == "web")
-            {
-          
-              window.location.replace("https://lin.ee/FNpF6TL");
-
-            }
-            
-        }
-        
-       
 
     }
     main()
